@@ -55,4 +55,14 @@ export class TransactionController {
     }
   }
 
+  async getTotalExpensesAndIncome(req: Request, res: Response) {
+    try {
+      const totalExpenseAndIncome = await transactionService.getTotalExpensesAndIncome(req.user_id) 
+      res.json(totalExpenseAndIncome)
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to get total expense and income' });
+    }
+  }
+
 }

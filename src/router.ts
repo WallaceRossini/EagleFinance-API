@@ -29,5 +29,6 @@ router.get('/transactions/:id',verifyToken,transactionController.getTransactionB
 router.post('/transactions', verifyToken, validateRequest(transactionCreateSchema), transactionController.createTransaction)
 router.put('/transactions/:id', verifyToken,transactionController.updateTransaction)
 router.delete('/transactions/:id', verifyToken,transactionController.deleteTransaction)
+router.get('/summary', verifyToken,transactionController.getTotalExpensesAndIncome)
 
 export default router
