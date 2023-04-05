@@ -32,4 +32,12 @@ model Transaction {
   userId          String
 }
 
+// Definition of the "BlackListedToken" entity
+model BlackListedToken {
+  id            String      @id @default(uuid())
+  token         String   @unique
+  blacklistedAt DateTime @default(now())
+}
+
+
 

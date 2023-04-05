@@ -36,13 +36,21 @@ export const validateLogin = async (
   }
 };
 
-export const verifyToken =(
+export const verifyToken = async(
   req: Request, 
   res: Response, 
   next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(' ')[1];
+
+    const blacklistedToken = await prisma.blackListedToken.findUnique({
+      where: { token },
+    });
+  
+    if (blacklistedToken) {
+      return res.status(401).json({ message: 'Invalid token.' });
+    }
     jwt.verify(token, String(process.env.JWT_SECRET), (err, decodedToken: TokenPayload) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid token' });

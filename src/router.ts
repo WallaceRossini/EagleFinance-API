@@ -7,13 +7,16 @@ import { transactionCreateSchema } from './validations/TransactionSchema'
 import { createToken, hashPassword } from './middlewares/hashPasswordMiddleware'
 import { validateLogin, verifyToken } from './middlewares/authMiddleware'
 import { AuthController } from './controllers/AuthController'
+import { BlackListedTokenController } from './controllers/BlackListedTokenController'
 
 const userController = new UserController()
 const transactionController = new TransactionController()
 const authController = new AuthController()
+const blackListedTokenController = new BlackListedTokenController()
 const router = Router()
 
-router.post('/sign', validateLogin, authController.login)
+router.post('/log_in', validateLogin, authController.login)
+router.post('/log_out', verifyToken,blackListedTokenController.createBlackListedToken)
 
 router.get('/users', userController.getUsers)
 router.get('/users/:id', userController.getUserById)
