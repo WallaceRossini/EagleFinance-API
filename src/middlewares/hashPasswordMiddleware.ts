@@ -6,8 +6,7 @@ const saltRounds = 10;
 
 export const hashPassword = (req: Request, res: Response, next: NextFunction) => {
   const { password } = req.body;
-
-  if (password) {
+  if (password != null || undefined) {
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
       if (err) {
         return res.status(500).json({ message: 'Internal server error' });

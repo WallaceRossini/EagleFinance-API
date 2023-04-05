@@ -3,7 +3,7 @@ import prisma from "../utils/prisma";
 
 
 export class TransactionService {
-  async createTransaction(data: ITransactionCreate): Promise<ITransactionCreate> {
+  async createTransaction(data: ITransactionCreate): Promise<ITransaction> {
     return prisma.transaction.create({ data });
   }
 
@@ -21,5 +21,9 @@ export class TransactionService {
 
   async getTransactions(userId: string): Promise<ITransaction[]> {
     return prisma.transaction.findMany({ where: { userId } });
+  }
+
+  async deleteAllTransactions() {
+    return prisma.transaction.deleteMany({});
   }
 }

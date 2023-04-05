@@ -53,7 +53,7 @@ export const verifyToken = async (
     }
     jwt.verify(token, String(process.env.JWT_SECRET), { maxAge: '1h' }, (err, decodedToken: TokenPayload) => {
       if (err) {
-        return res.status(403).json({ message: 'Invalid token' });
+        return res.status(403).json({ message: 'Invalid token 3' });
       } else {
         req.user_id = decodedToken.userId
         next();
