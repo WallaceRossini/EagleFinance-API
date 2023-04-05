@@ -19,7 +19,7 @@ export class TransactionService {
     return prisma.transaction.delete({ where: { id } });
   }
 
-  async getTransactions(): Promise<ITransaction[]> {
-    return prisma.transaction.findMany();
+  async getTransactions(userId: string): Promise<ITransaction[]> {
+    return prisma.transaction.findMany({ where: { userId } });
   }
 }

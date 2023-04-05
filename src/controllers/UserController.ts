@@ -36,7 +36,7 @@ export class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const user = await userService.updateUser(req.params.id, req.body);
+      const user = await userService.updateUser(req.user_id, req.body);
       res.json(user);
     } catch (error) {
       console.error(error);
@@ -46,7 +46,7 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     try {
-      const user = await userService.deleteUser(req.params.id);
+      const user = await userService.deleteUser(req.user_id);
       res.json(user);
     } catch (error) {
       console.error(error);

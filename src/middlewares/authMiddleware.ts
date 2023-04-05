@@ -2,21 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../utils/prisma";
 import { loginSchema } from "../validations/AuthSchema";
+import jwt, {JwtPayload} from "jsonwebtoken";
 
-export const hashPassword = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    req.body.password = hashedPassword;
-    next();
-  } catch (error) {
-    res.status(500).json({ message: "Error hashing password" });
-  }
-};
+interface TokenPayload extends JwtPayload {
+  userId: string
+}
 
 export const validateLogin = async (
   req: Request,
@@ -45,3 +35,24 @@ export const validateLogin = async (
     res.status(400).json({ message: error });
   }
 };
+
+export const verifyToken =(
+  req: Request, 
+  res: Response, 
+  next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, String(process.env.JWT_SECRET), (err, decodedToken: TokenPayload) => {
+      if (err) {
+        return res.status(403).json({ message: 'Invalid token' });
+      } else {
+        req.user_id = decodedToken.userId
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({ message: 'Authorization header missing' });
+  }
+}
+

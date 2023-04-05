@@ -5,7 +5,6 @@ const transactionCreateSchema = z.object({
   date: z.string().transform((value) => new Date(value)),
   paid: z.boolean(),
   transactionType: z.enum(['INCOME', 'EXPENSE']),
-  userId: z.string(),
   value: z.number().nonnegative(),
   dueDate: z.string().transform((value) => new Date(value))
 });

@@ -7,7 +7,7 @@ const transactionService = new TransactionService()
 export class TransactionController {
   async createTransaction(req: Request, res: Response) {
     try {
-      const user = await transactionService.createTransaction(req.body)
+      const user = await transactionService.createTransaction({ ...req.body, userId: req.user_id })
       res.status(201).json(user)
     } catch (error) {
       console.error(error);
@@ -27,7 +27,7 @@ export class TransactionController {
 
   async getTransactions(req: Request, res: Response) {
     try {
-      const transactions = await transactionService.getTransactions();
+      const transactions = await transactionService.getTransactions(req.user_id);
       res.json(transactions);
     } catch (error) {
       console.error(error);
@@ -37,7 +37,7 @@ export class TransactionController {
 
   async updateTransaction(req: Request, res: Response) {
     try {
-      const transaction = await transactionService.updateTransaction(req.params.id, req.body);
+      const transaction = await transactionService.updateTransaction(req.params.id,{ ...req.body, userId: req.user_id });
       res.json(transaction);
     } catch (error) {
       console.error(error);
