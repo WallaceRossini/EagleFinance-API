@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../utils/prisma";
 import { loginSchema } from "../validations/AuthSchema";
-import jwt, {JwtPayload} from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface TokenPayload extends JwtPayload {
   userId: string
@@ -36,9 +36,9 @@ export const validateLogin = async (
   }
 };
 
-export const verifyToken = async(
-  req: Request, 
-  res: Response, 
+export const verifyToken = async (
+  req: Request,
+  res: Response,
   next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
@@ -47,11 +47,11 @@ export const verifyToken = async(
     const blacklistedToken = await prisma.blackListedToken.findUnique({
       where: { token },
     });
-  
+
     if (blacklistedToken) {
       return res.status(401).json({ message: 'Invalid token.' });
     }
-    jwt.verify(token, String(process.env.JWT_SECRET), (err, decodedToken: TokenPayload) => {
+    jwt.verify(token, String(process.env.JWT_SECRET), { maxAge: '1h' }, (err, decodedToken: TokenPayload) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid token' });
       } else {

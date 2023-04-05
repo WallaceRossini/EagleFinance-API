@@ -19,15 +19,15 @@ export const hashPassword = (req: Request, res: Response, next: NextFunction) =>
 
 };
 
-export const createToken = (req: Request, res: Response, next: NextFunction) => {
-  const { username } = req.body;
+// export const createToken = (req: Request, res: Response, next: NextFunction) => {
+//   const { username } = req.body;
 
-  jwt.sign({ username }, 'secret', { expiresIn: '1h' }, (err, token) => {
-    if (err) {
-      return res.status(500).json({ message: 'Internal server error' });
-    }
+//   jwt.sign({ username }, 'secret', { expiresIn: '1h' }, (err, token) => {
+//     if (err) {
+//       return res.status(500).json({ message: 'Internal server error' });
+//     }
 
-    req.body.token = token;
-    next();
-  });
-};
+//     req.body.token = token;
+//     next();
+//   });
+// };
