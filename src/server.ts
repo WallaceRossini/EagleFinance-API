@@ -1,10 +1,7 @@
-import app from './app'
-import router from './router'
+import { app } from './app'
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 4000
 
-app.use(router)
-
 app.listen(PORT, () => {
   console.log(`HTTP Server Running ${PORT}`)
-} )
+})

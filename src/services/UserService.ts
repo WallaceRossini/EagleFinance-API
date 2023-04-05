@@ -21,4 +21,8 @@ export class UserService {
   async getUsers(): Promise<IUser[]> {
     return prisma.user.findMany();
   }
+
+  async deleteAllUsers() {
+    return prisma.user.deleteMany({})
+  }
 }
