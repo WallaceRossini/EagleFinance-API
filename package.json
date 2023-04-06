@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "npx nodemon src/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "build":"tsup src",
+    "start":"node dist/server.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
